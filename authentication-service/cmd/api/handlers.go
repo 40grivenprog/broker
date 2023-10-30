@@ -19,24 +19,28 @@ func (app *Config) Authenticate(w http.ResponseWriter, r *http.Request) {
 		app.errorJson(w, err)
 		return
 	}
+	fmt.Println("1")
 
 	user, err := app.Models.User.GetByEmail(requestPayload.Email)
 	if err != nil {
 		app.errorJson(w, err)
 		return
 	}
+	fmt.Println("2")
 
 	valid, err := user.PasswordMatches(requestPayload.Password)
 	if err != nil || !valid {
 		app.errorJson(w, errors.New("invalid credentials"))
 		return
 	}
+	fmt.Println("3")
 
 	err = app.logRequest("authentication", fmt.Sprintf("%s logged in", user.Email))
 	if err != nil {
 		app.errorJson(w, err)
 		return
 	}
+	fmt.Println("4")
 
 	payload := jsonResponse{
 		Error:   false,
