@@ -1,6 +1,12 @@
 version: '3'
 
 services:
+  front-end:
+    image: 40grivenprog/front-end:1.0.1
+    deploy:
+      mode: replicated
+      replicas: 1
+
   broker-service:
     image: 40grivenprog/broker-service:1.0.1
     deploy:
