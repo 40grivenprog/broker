@@ -8,8 +8,9 @@ import (
 	"net/http"
 	"os"
 )
+
 type TemplateData struct {
-	Title string
+	Title     string
 	BrokerURL string
 }
 
