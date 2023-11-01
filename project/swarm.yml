@@ -2,7 +2,7 @@ version: '3'
 
 services:
   caddy:
-    image: 40grivenprog/caddy
+    image: 40grivenprog/caddy:1.0.0
     deploy:
       mode: replicated
       replicas: 1
@@ -14,10 +14,12 @@ services:
       - caddy_config:/config
 
   front-end:
-    image: 40grivenprog/front-end:1.0.1
+    image: 40grivenprog/front-end:1.0.7
     deploy:
       mode: replicated
       replicas: 1
+    environment:
+      BROKER_URL: "http://backend"
 
   broker-service:
     image: 40grivenprog/broker-service:1.0.1
@@ -88,7 +90,6 @@ services:
     image: 'postgres:14.0'
     ports:
       - "5432:5432"
-    restart: always
     deploy:
       mode: replicated
       replicas: 1

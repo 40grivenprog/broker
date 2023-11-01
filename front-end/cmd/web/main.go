@@ -6,7 +6,12 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"os"
 )
+type TemplateData struct {
+	Title string
+	BrokerURL string
+}
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -14,6 +19,7 @@ func main() {
 	})
 
 	fmt.Println("Starting front end service on port 80")
+	fmt.Println("RENDERING WITH ENV", os.Getenv("BROKER_URL"))
 	err := http.ListenAndServe(":8081", nil)
 	if err != nil {
 		log.Panic(err)
@@ -44,7 +50,13 @@ func render(w http.ResponseWriter, t string) {
 		return
 	}
 
-	if err := tmpl.Execute(w, nil); err != nil {
+	var data TemplateData
+
+	data.BrokerURL = os.Getenv("BROKER_URL")
+	data.Title = "Test maksim microservices"
+	fmt.Println("RENDERING WITH ENV", data.BrokerURL)
+
+	if err := tmpl.Execute(w, data); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
