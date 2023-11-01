@@ -19,7 +19,7 @@ services:
       mode: replicated
       replicas: 1
     environment:
-      BROKER_URL: "http://backend"
+      BROKER_URL: "http://broker.go-test-micro.pl"
 
   broker-service:
     image: 40grivenprog/broker-service:1.0.1
